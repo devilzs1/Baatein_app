@@ -5,16 +5,17 @@ import { Outlet } from "react-router-dom";
 import Logo from "../../assets/Images/logo.ico";
 import { Nav_Buttons } from "../../data";
 import { Gear } from "phosphor-react";
-import {faker} from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 import AntiSwitch from "../../components/AntSwitch";
 import useSettings from "../../hooks/useSettings";
 
 const DashboardLayout = () => {
   const theme = useTheme();
   const [selected, setSelected] = useState(0);
-  const {onToggleMode} = useSettings();
+  const { onToggleMode } = useSettings();
   return (
     <>
+    <Stack direction="row">
       <Box
         sx={{
           backgroundColor: theme.palette.background.paper,
@@ -120,6 +121,7 @@ const DashboardLayout = () => {
         </Stack>
       </Box>
       <Outlet />
+      </Stack>
     </>
   );
 };
