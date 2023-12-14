@@ -9,7 +9,7 @@ import {
   Badge,
   Avatar,
 } from "@mui/material";
-import { ArchiveBox, DotsThreeCircle, MagnifyingGlass } from "phosphor-react";
+import { ArchiveBox, DotsThreeCircle, MagnifyingGlass, PushPin } from "phosphor-react";
 import React from "react";
 import { styled, alpha, useTheme} from "@mui/material/styles";
 import { faker } from "@faker-js/faker";
@@ -46,40 +46,52 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const ChatElement = ({id, name, img, msg, time, unread, online}) => {
+const ChatElement = ({id, name, img, msg, time, unread, pinned, online}) => {
   const theme = useTheme();
   return (
     <Box
       sx={{
         width: "100%",
         borderRadius: 1,
-        backgroundColor: theme.palette.mode==="light" ? "#fff" : theme.palette.background.default,
+        backgroundColor:
+          theme.palette.mode === "light"
+            ? "#fff"
+            : theme.palette.background.default,
       }}
       p={1.5}
     >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack direction="row" spacing={2}>
-        {online ? 
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          > <Avatar src={faker.image.avatar()}/>
-          </StyledBadge>
-          : <Avatar src={faker.image.avatar()} />}
+          {online ? (
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              {" "}
+              <Avatar src={faker.image.avatar()} />
+            </StyledBadge>
+          ) : (
+            <Avatar src={faker.image.avatar()} />
+          )}
 
           <Stack spacing={0.3}>
-            <Typography variant="subtitle">
-              {name}
-            </Typography>
-            <Typography variant="caption">
-              {msg}
-            </Typography>
+            <Typography variant="subtitle">{name}</Typography>
+            <Typography variant="caption">{msg}</Typography>
           </Stack>
         </Stack>
         <Stack spacing={2} alignItems="center">
-          <Typography sx={{fontWeight:600}} variant="caption">{time}</Typography>
-          <Badge color="primary" badgeContent={unread}/>
+          <Typography sx={{ fontWeight: 600 }} variant="caption">
+            {time}
+          </Typography>
+          {pinned === true ? (
+            <Stack direction="row" spacing={2} alignItems={"center"}>
+              <Badge color="primary" badgeContent={unread} />
+              <PushPin />
+            </Stack>
+          ) : (
+            <Badge color="primary" badgeContent={unread} />
+          )}
         </Stack>
       </Stack>
     </Box>
@@ -119,7 +131,7 @@ const Chats = () => {
     <Box
       sx={{
         position: "relative",
-        width: 320,
+        width: 350,
         backgroundColor:
           theme.palette.mode === "light"
             ? "#F8FAFF"
@@ -157,28 +169,15 @@ const Chats = () => {
           <Divider />
         </Stack>
         <Stack
+          spacing={.5}
           direction="column"
-          sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }}
-          spacing={2}
+          sx={{ flexGrow: 1, overflowY: "scroll", height: "100%",}}
         >
-          {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
-          <Stack spacing={0.5}>
-            <Typography variant="subtitle2" sx={{ color: "#676767" }}>
-              Pinned
-            </Typography>
-            {ChatList.filter((el) => el.pinned).map((el) => {
-              return <ChatElement {...el} />;
-            })}
-          </Stack>
-          <Stack spacing={0.5}>
-            <Typography variant="subtitle2" sx={{ color: "#676767" }}>
-              All Chats
-            </Typography>
-            {ChatList.filter((el) => !el.pinned).map((el) => {
-              return <ChatElement {...el} />;
-            })}
-          </Stack>
-          {/* </SimpleBarStyle> */}
+        {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
+          {ChatList.map((el) => {
+            return <ChatElement {...el} />;
+          })}
+        {/* </SimpleBarStyle> */}
         </Stack>
       </Stack>
     </Box>
