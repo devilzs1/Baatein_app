@@ -19,7 +19,7 @@ const Profile_Menu = [
     icon: <Gear />,
   },
   {
-    title: "Profile",
+    title: "Logout",
     icon: <SignOut />,
   },
 ];
@@ -201,19 +201,19 @@ const Chat_History = [
 
 const Message_options = [
   {
+    title: "React to message",
+  },
+  {
     title: "Reply",
   },
   {
-    title: "React to message",
+    title: "Copy",
   },
   {
     title: "Forward message",
   },
   {
     title: "Star message",
-  },
-  {
-    title: "Report",
   },
   {
     title: "Delete Message",
