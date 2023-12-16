@@ -19,37 +19,14 @@ const Timeline = ({ el }) => {
 
 const TextMsg = ({ el }) => {
   const theme = useTheme();
-  return (
-    <Stack
-      direction="row"
-      justifyContent={el.incoming ? "start" : "end"}
-    >
-      <Box
-        p={1.5}
-        sx={{
-          backgroundColor: el.incoming
-            ? theme.palette.mode === "light"
-              ? "#fff"
-              : theme.palette.background.paper
-            : theme.palette.primary.main,
-          borderRadius: 1.5,
-          width: "max-content",
-        }}
-      >
-        <Typography
-          variant="body2"
-          color={el.incoming ? theme.palette.text : "#fff"}
-        >
-          {el.message}
-        </Typography>
-      </Box>
-      <MsgOptions/>
-    </Stack>
-  );
-};
-
-const MediaMsg = ({el}) => {
-  const theme = useTheme();
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const open = Boolean(anchorEl);
+      const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
       <Box
@@ -63,6 +40,68 @@ const MediaMsg = ({el}) => {
           borderRadius: 1.5,
           width: "max-content",
         }}
+        id="basic-button"
+        aria-control={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        size={20}
+      >
+        <Typography
+          variant="body2"
+          color={el.incoming ? theme.palette.text : "#fff"}
+        >
+          {el.message}
+        </Typography>
+      </Box>
+      {/* <MsgOptions/> */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ "aria-labelledby": "basic-button" }}
+      >
+        <Stack spacing={1} px={1}>
+          {Message_options.map((el) => (
+            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          ))}
+        </Stack>
+      </Menu>
+    </Stack>
+  );
+};
+
+
+const MediaMsg = ({el}) => {
+  const theme = useTheme();
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const open = Boolean(anchorEl);
+      const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
+  return (
+    <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
+      <Box
+        p={1.5}
+        sx={{
+          backgroundColor: el.incoming
+            ? theme.palette.mode === "light"
+              ? "#fff"
+              : theme.palette.background.paper
+            : theme.palette.primary.main,
+          borderRadius: 1.5,
+          width: "max-content",
+        }}
+        id="basic-button"
+        aria-control={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        size={20}
       >
         <Stack spacing={1}>
           <img
@@ -78,13 +117,34 @@ const MediaMsg = ({el}) => {
           </Typography>
         </Stack>
       </Box>
-      <MsgOptions />
+      {/* <MsgOptions /> */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ "aria-labelledby": "basic-button" }}
+      >
+        <Stack spacing={1} px={1}>
+          {Message_options.map((el) => (
+            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          ))}
+        </Stack>
+      </Menu>
     </Stack>
   );
 };
 
 const DocMsg = ({el}) => {
   const theme = useTheme();
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const open = Boolean(anchorEl);
+      const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
       <Box
@@ -98,6 +158,12 @@ const DocMsg = ({el}) => {
           borderRadius: 1.5,
           width: "max-content",
         }}
+        id="basic-button"
+        aria-control={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        size={20}
       >
         <Stack spacing={1}>
           <Stack
@@ -121,13 +187,34 @@ const DocMsg = ({el}) => {
           </Typography>
         </Stack>
       </Box>
-      <MsgOptions />
+      {/* <MsgOptions /> */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ "aria-labelledby": "basic-button" }}
+      >
+        <Stack spacing={1} px={1}>
+          {Message_options.map((el) => (
+            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          ))}
+        </Stack>
+      </Menu>
     </Stack>
   );
 };
 
 const ReplyMsg = ({el}) => {
   const theme = useTheme();
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const open = Boolean(anchorEl);
+      const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
       <Box
@@ -141,6 +228,12 @@ const ReplyMsg = ({el}) => {
           borderRadius: 1.5,
           width: "max-content",
         }}
+        id="basic-button"
+        aria-control={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        size={20}
       >
         <Stack spacing={1}>
           <Stack
@@ -165,13 +258,34 @@ const ReplyMsg = ({el}) => {
           </Typography>
         </Stack>
       </Box>
-      <MsgOptions />
+      {/* <MsgOptions /> */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ "aria-labelledby": "basic-button" }}
+      >
+        <Stack spacing={1} px={1}>
+          {Message_options.map((el) => (
+            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          ))}
+        </Stack>
+      </Menu>
     </Stack>
   );
 };
 
 const LinkMsg = ({el}) => {
   const theme = useTheme();
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const open = Boolean(anchorEl);
+      const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
   return (
     <Stack direction="row" justifyContent={el.incoming ? "start" : "end"}>
       <Box
@@ -185,6 +299,12 @@ const LinkMsg = ({el}) => {
           borderRadius: 1.5,
           width: "max-content",
         }}
+        id="basic-button"
+        aria-control={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        size={20}
       >
         <Stack spacing={1}>
           <Stack
@@ -222,7 +342,20 @@ const LinkMsg = ({el}) => {
           </Stack>
         </Stack>
       </Box>
-      <MsgOptions />
+      {/* <MsgOptions /> */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{ "aria-labelledby": "basic-button" }}
+      >
+        <Stack spacing={1} px={1}>
+          {Message_options.map((el) => (
+            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          ))}
+        </Stack>
+      </Menu>
     </Stack>
   );
 };
