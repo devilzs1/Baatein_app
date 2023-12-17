@@ -55,9 +55,9 @@ const Sidebar = () => {
             alignItems="center"
             spacing={3}
           >
-            {Nav_Buttons.map((el) =>
+            {Nav_Buttons.map((el,index) =>
               el.index === selected ? (
-                <Box
+                <Box key={index}
                   sx={{
                     backgroundColor: theme.palette.primary.main,
                     borderRadius: 1.5,
@@ -124,7 +124,7 @@ const Sidebar = () => {
           <Avatar
             src={faker.image.avatar()}
             id="basic-button"
-            aria-control={open ? "basic-menu" : undefined}
+            aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
@@ -145,8 +145,8 @@ const Sidebar = () => {
             }}
           >
             <Stack spacing={1} px={1}>
-              {Profile_Menu.map((el) => (
-                <MenuItem onClick={handleClick}>
+              {Profile_Menu.map((el,index) => (
+                <MenuItem key={index} onClick={handleClick}>
                   <Stack
                     sx={{ width: 100 }}
                     direction="row"

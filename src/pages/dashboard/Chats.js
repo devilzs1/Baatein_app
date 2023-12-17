@@ -174,8 +174,8 @@ const Chats = () => {
           sx={{ flexGrow: 1, overflowY: "scroll", height: "100%",}}
         >
         {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
-          {ChatList.map((el) => {
-            return <ChatElement {...el} />;
+          {ChatList.map((el,index) => {
+            return <ChatElement {...el} key={index} />;
           })}
         {/* </SimpleBarStyle> */}
         </Stack>

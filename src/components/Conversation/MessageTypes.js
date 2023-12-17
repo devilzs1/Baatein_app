@@ -1,7 +1,7 @@
 import { Stack, Divider, Typography, Box, Link, IconButton, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { useTheme} from "@mui/material/styles";
-import { DotsThreeVertical, DownloadSimple, Image } from "phosphor-react";
+import { DownloadSimple, Image } from "phosphor-react";
 import { Message_options } from "../../data";
 
 const Timeline = ({ el }) => {
@@ -41,7 +41,7 @@ const TextMsg = ({ el }) => {
           width: "max-content",
         }}
         id="basic-button"
-        aria-control={open ? "basic-menu" : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
@@ -63,8 +63,8 @@ const TextMsg = ({ el }) => {
         MenuListProps={{ "aria-labelledby": "basic-button" }}
       >
         <Stack spacing={1} px={1}>
-          {Message_options.map((el) => (
-            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          {Message_options.map((el,index) => (
+            <MenuItem key={index} onClick={handleClick}>{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>
@@ -97,7 +97,7 @@ const MediaMsg = ({el}) => {
           width: "max-content",
         }}
         id="basic-button"
-        aria-control={open ? "basic-menu" : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
@@ -126,8 +126,8 @@ const MediaMsg = ({el}) => {
         MenuListProps={{ "aria-labelledby": "basic-button" }}
       >
         <Stack spacing={1} px={1}>
-          {Message_options.map((el) => (
-            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          {Message_options.map((el,index) => (
+            <MenuItem key={index} onClick={handleClick}>{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>
@@ -159,7 +159,7 @@ const DocMsg = ({el}) => {
           width: "max-content",
         }}
         id="basic-button"
-        aria-control={open ? "basic-menu" : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
@@ -196,8 +196,8 @@ const DocMsg = ({el}) => {
         MenuListProps={{ "aria-labelledby": "basic-button" }}
       >
         <Stack spacing={1} px={1}>
-          {Message_options.map((el) => (
-            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          {Message_options.map((el,index) => (
+            <MenuItem key={index} onClick={handleClick}>{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>
@@ -229,7 +229,7 @@ const ReplyMsg = ({el}) => {
           width: "max-content",
         }}
         id="basic-button"
-        aria-control={open ? "basic-menu" : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
@@ -267,8 +267,8 @@ const ReplyMsg = ({el}) => {
         MenuListProps={{ "aria-labelledby": "basic-button" }}
       >
         <Stack spacing={1} px={1}>
-          {Message_options.map((el) => (
-            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          {Message_options.map((el,index) => (
+            <MenuItem key={index} onClick={handleClick}>{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>
@@ -300,7 +300,7 @@ const LinkMsg = ({el}) => {
           width: "max-content",
         }}
         id="basic-button"
-        aria-control={open ? "basic-menu" : undefined}
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
@@ -351,8 +351,8 @@ const LinkMsg = ({el}) => {
         MenuListProps={{ "aria-labelledby": "basic-button" }}
       >
         <Stack spacing={1} px={1}>
-          {Message_options.map((el) => (
-            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+          {Message_options.map((el,index) => (
+            <MenuItem key={index} onClick={handleClick}>{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>
@@ -371,15 +371,15 @@ const MsgOptions = () =>{
     };
   return (
     <>
-      <DotsThreeVertical id="basic-button"
-        aria-control={open ? "basic-menu" : undefined}
+      {/* <DotsThreeVertical id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick} size={20}/>
+        onClick={handleClick} size={20}/> */}
       <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{'aria-labelledby': 'basic-button'}}>
         <Stack spacing={1} px={1}>
-        {Message_options.map((el)=>(
-          <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+        {Message_options.map((el,index)=>(
+          <MenuItem key={index} onClick={handleClick}>{el.title}</MenuItem>
         ))}
         </Stack>
       </Menu>
