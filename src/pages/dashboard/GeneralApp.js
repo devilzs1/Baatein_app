@@ -16,6 +16,9 @@ const GeneralApp = () => {
       <Conversation/>
       </Box>
 
+      {/* {sidebar.open && (()=>{
+
+      })() <Contact/>} */}
       <Contact/>
 
     </Stack>
