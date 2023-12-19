@@ -18,6 +18,9 @@ import {
 import { Bell, CaretRight, Phone, Prohibit, Star, Trash, VideoCamera, X } from "phosphor-react";
 import { faker } from "@faker-js/faker";
 import AntiSwitch from "./AntSwitch";
+import { useDispatch } from "react-redux";
+import { ToggleSidebar, UpdateSidebarType } from "../redux/slices/app";
+
 
 const Transition = React.forwardRef(function Transition(props,ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -75,6 +78,8 @@ const Contact = () => {
   const [openBlock, setOpenBlock] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleCloseBlock = ()=>{
     setOpenBlock(false);
   }
@@ -104,7 +109,11 @@ const Contact = () => {
           >
             <Typography variant="subtitle2">Contact Info</Typography>
             <IconButton onClick={() => {}}>
-              <X />
+              <X
+                onClick={() => {
+                  dispatch(ToggleSidebar());
+                }}
+              />
             </IconButton>
           </Stack>
         </Box>
@@ -168,10 +177,17 @@ const Contact = () => {
             justifyContent="space-between"
           >
             <Typography variant="subtitle2">Media, Link & Docs</Typography>
-            <Button endIcon={<CaretRight />}>786</Button>
+            <Button
+              endIcon={<CaretRight />}
+              onClick={() => {
+                dispatch(UpdateSidebarType("SHARED"));
+              }}
+            >
+              786
+            </Button>
           </Stack>
           <Stack direction="row" spacing={1} alignItems={"center"}>
-            {[1, 2, 3].map((el,index) => (
+            {[1, 2, 3].map((el, index) => (
               <Box key={index}>
                 <img src={faker.image.food()} alt={faker.name.fullName()} />
               </Box>
@@ -180,45 +196,79 @@ const Contact = () => {
 
           <Divider />
 
-          <Stack direction="row" alignItems={"center"} justifyContent="space-between">
+          <Stack
+            direction="row"
+            alignItems={"center"}
+            justifyContent="space-between"
+          >
             <Stack direction="row" spacing={2} alignItems={"center"}>
-                <Star size={20}/>
-                <Typography variant="subtitle2">Starred Messages</Typography>
+              <Star size={20} />
+              <Typography variant="subtitle2">Starred Messages</Typography>
             </Stack>
-            <IconButton><CaretRight /></IconButton>
+            <IconButton
+              onClick={() => {
+                dispatch(UpdateSidebarType("STARRED"));
+              }}
+            >
+              <CaretRight />
+            </IconButton>
           </Stack>
 
           <Divider />
 
-          <Stack direction="row" alignItems={"center"} justifyContent="space-between">
+          <Stack
+            direction="row"
+            alignItems={"center"}
+            justifyContent="space-between"
+          >
             <Stack direction="row" spacing={2} alignItems={"center"}>
-                <Bell size={20}/>
-                <Typography variant="subtitle2">Mute Notifications</Typography>
+              <Bell size={20} />
+              <Typography variant="subtitle2">Mute Notifications</Typography>
             </Stack>
-            <AntiSwitch/>
+            <AntiSwitch />
           </Stack>
 
-          <Divider/>
+          <Divider />
 
           <Typography> 1 group in common</Typography>
           <Stack direction="row" spacing={2} alignItems={"center"}>
-            <Avatar src={faker.image.avatar()} atl={faker.name.fullName()}/>
+            <Avatar src={faker.image.avatar()} atl={faker.name.fullName()} />
             <Stack spacing={0.5}>
-                <Typography variant="subtitle1">Brain Dead</Typography>
-                <Typography variant="caption">Love, Life, Money, You</Typography>
+              <Typography variant="subtitle1">Brain Dead</Typography>
+              <Typography variant="caption">Love, Life, Money, You</Typography>
             </Stack>
           </Stack>
 
           <Stack direction="row" alignItems={"center"} spacing={2}>
-            <Button startIcon={<Prohibit/>} fullWidth variant="outlined" onClick={()=>{setOpenBlock(true)}}>Block</Button>
-            <Button startIcon={<Trash/>} fullWidth variant="outlined" onClick={()=>{
-              setOpenDelete(true)
-            }}>Delete</Button>
+            <Button
+              startIcon={<Prohibit />}
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                setOpenBlock(true);
+              }}
+            >
+              Block
+            </Button>
+            <Button
+              startIcon={<Trash />}
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                setOpenDelete(true);
+              }}
+            >
+              Delete
+            </Button>
           </Stack>
         </Stack>
       </Stack>
-      {openBlock && <BlockDialog open={openBlock} handleClose={handleCloseBlock}/>}
-      {openDelete && <DeleteDialog open={openDelete} handleClose={handleCloseDelete}/>}
+      {openBlock && (
+        <BlockDialog open={openBlock} handleClose={handleCloseBlock} />
+      )}
+      {openDelete && (
+        <DeleteDialog open={openDelete} handleClose={handleCloseDelete} />
+      )}
     </Box>
   );
 };
