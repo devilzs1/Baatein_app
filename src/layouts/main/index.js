@@ -9,7 +9,7 @@ const MainLayout = () => {
       <Container sx={{mt: 5}} maxWidth="sm">
       <Stack spacing={5}>
         <Stack sx={{width: "100%"}} alignItems={"center"}>
-          <img style={{height: 120, width: 120, borderRadius: 15}} src={logo} alt="logo"/>
+          <img style={{height: 100, width: 100, borderRadius: 15}} src={logo} alt="logo"/>
         </Stack>
       </Stack>
 
