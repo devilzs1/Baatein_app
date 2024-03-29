@@ -1,18 +1,27 @@
+import {
+  Box,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+  Link,
+} from "@mui/material";
+import { MagnifyingGlass, Phone } from "phosphor-react";
 import React, { useState } from "react";
-import { Box,Stack,Typography,IconButton,Link,Divider,} from "@mui/material";
-import { MagnifyingGlass, Plus } from "phosphor-react";
-import { useTheme } from "@mui/material/styles";
-// import { SimpleBarStyle } from "../../components/Scrollbar";
-import { ChatList } from "../../data";
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from "../../components/Search";
-import CreateGroup from "../../sections/dashboard/CreateGroup";
-import ChatElement from "../../components/ChatElements";
 
-const Group = () => {
+import { useTheme } from "@mui/material/styles";
+import { SimpleBarStyle } from "../../components/Scrollbar";
+import { CallLogElement } from "../../components/CallElement";
+import StartCall from "../../sections/dashboard/StartCall";
+import {CallLogs } from "../../data";
+
+
+const Call = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleCloseDialog = () => {
@@ -25,10 +34,9 @@ const Group = () => {
   return (
     <>
       <Stack direction="row" sx={{ width: "100%" }}>
+
         <Box
           sx={{
-            // overflowY: "scroll",
-
             height: "100vh",
             width: 350,
             backgroundColor: (theme) =>
@@ -45,8 +53,9 @@ const Group = () => {
               justifyContent="space-between"
               direction="row"
             >
-              <Typography variant="h5">Groups</Typography>
+              <Typography variant="h5">Call Log</Typography>
             </Stack>
+
             <Stack sx={{ width: "100%" }}>
               <Search>
                 <SearchIconWrapper>
@@ -58,34 +67,37 @@ const Group = () => {
                 />
               </Search>
             </Stack>
+
             <Stack
               justifyContent={"space-between"}
               alignItems={"center"}
               direction={"row"}
             >
               <Typography variant="subtitle2" sx={{}} component={Link}>
-                Create New Group
+                Start a conversation
               </Typography>
               <IconButton onClick={handleOpenDialog}>
-                <Plus style={{ color: theme.palette.primary.main }} />
+                <Phone style={{ color: theme.palette.primary.main }} />
               </IconButton>
             </Stack>
             <Divider />
-            <Stack sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }}>
-              {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
-              {ChatList.map((el, index) => {
-                return <ChatElement {...el} key={index} />;
-              })}
-              {/* </SimpleBarStyle> */}
+            <Stack sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }} >
+              <SimpleBarStyle timeout={500} clickOnTrack={false}>
+                <Stack spacing={.5}>
+                  {CallLogs.map((el, idx) => {
+                    return <CallLogElement key={idx} {...el} />;
+                  })}
+                </Stack>
+              </SimpleBarStyle>
             </Stack>
           </Stack>
         </Box>
       </Stack>
       {openDialog && (
-        <CreateGroup open={openDialog} handleClose={handleCloseDialog} />
+        <StartCall open={openDialog} handleClose={handleCloseDialog} />
       )}
     </>
   );
 };
 
-export default Group;
+export default Call;
