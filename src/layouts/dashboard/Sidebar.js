@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Avatar, Box, Divider, IconButton, Menu, MenuItem, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Logo from "../../assets/Images/logo.ico";
 import { Nav_Buttons, Profile_Menu } from "../../data";
@@ -7,19 +15,50 @@ import { Gear } from "phosphor-react";
 import { faker } from "@faker-js/faker";
 import AntiSwitch from "../../components/AntSwitch";
 import useSettings from "../../hooks/useSettings";
+import { useNavigate } from "react-router-dom";
+
+const getPath = (index) => {
+  switch (index) {
+    case 0:
+      return "/app";
+    case 1:
+      return "/group";
+    case 2:
+      return "/call";
+    case 3:
+      return "/settings";
+
+    default:
+      break;
+  }
+};
+const getMenuPath = (index) => {
+  switch (index) {
+    case 0:
+      return "/profile";
+    case 1:
+      return "/group";
+    case 2:
+      return "/auth/login";
+
+    default:
+      break;
+  }
+};
 
 const Sidebar = () => {
-    const theme = useTheme();
-    const [selected, setSelected] = useState(0);
-    const { onToggleMode } = useSettings();
-      const [anchorEl, setAnchorEl] = React.useState(null);
-      const open = Boolean(anchorEl);
-      const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
-      const handleClose = () => {
-        setAnchorEl(null);
-      };
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const [selected, setSelected] = useState(0);
+  const { onToggleMode } = useSettings();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Box
       sx={{
@@ -55,9 +94,10 @@ const Sidebar = () => {
             alignItems="center"
             spacing={3}
           >
-            {Nav_Buttons.map((el,index) =>
+            {Nav_Buttons.map((el, index) =>
               el.index === selected ? (
-                <Box key={index}
+                <Box
+                  key={index}
                   sx={{
                     backgroundColor: theme.palette.primary.main,
                     borderRadius: 1.5,
@@ -74,6 +114,7 @@ const Sidebar = () => {
                 <IconButton
                   onClick={() => {
                     setSelected(el.index);
+                    navigate(getPath(el.index));
                   }}
                   sx={{
                     width: "max-content",
@@ -108,6 +149,7 @@ const Sidebar = () => {
             <IconButton
               onClick={() => {
                 setSelected(3);
+                navigate(getPath(3));
               }}
               sx={{
                 width: "max-content",
@@ -137,16 +179,19 @@ const Sidebar = () => {
             MenuListProps={{ "aria-labelledby": "basic-button" }}
             anchorOrigin={{
               vertical: "bottom",
-              horizontal: "right"
+              horizontal: "right",
             }}
             transformOrigin={{
               vertical: "bottom",
-              horizontal: "left"
+              horizontal: "left",
             }}
           >
             <Stack spacing={1} px={1}>
-              {Profile_Menu.map((el,index) => (
-                <MenuItem key={index} onClick={handleClick}>
+              {Profile_Menu.map((el, index) => (
+                <MenuItem key={index} onClick={()=>{
+                  // handleClick();
+                  navigate(getMenuPath(index));
+                }}>
                   <Stack
                     sx={{ width: 100 }}
                     direction="row"
@@ -164,6 +209,6 @@ const Sidebar = () => {
       </Stack>
     </Box>
   );
-}
+};
 
-export default Sidebar
+export default Sidebar;
