@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import FormProvider, { RHFTextField } from "../../components/hook-form";
+import {Link as RouterLink, useSearchParams} from "react-router-dom";
 import { Eye, EyeSlash } from "phosphor-react";
 import {
   Stack,
@@ -11,14 +12,18 @@ import {
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import {useDispatch} from "react-redux";
 import YupPassword from "yup-password";
+import { NewPassword } from "../../redux/slices/auth";
 YupPassword(Yup);
 
 const NewPasswordForm = () => {
+  const dispatch = useDispatch();
+  const [queryParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
 
   const NewPasswordSchema = Yup.object().shape({
-    newPassword: Yup.string()
+    password: Yup.string()
       .required("Password is required!")
       .min(
         8,
@@ -29,14 +34,14 @@ const NewPasswordForm = () => {
       .minNumbers(1, "password must contain at least 1 number")
       .minSymbols(1, "password must contain at least 1 special character"),
 
-    confirmPassword: Yup.string()
+    passwordConfirm: Yup.string()
       .required("Password is required!")
-      .oneOf([Yup.ref("newPassword"), null], "Password must match!"),
+      .oneOf([Yup.ref("password"), null], "Password must match!"),
   });
 
   const defaultValues = {
-    newPassword: "",
-    confirmPassword: "",
+    password: "",
+    passwordConfirm: "",
   };
   const methods = useForm({
     resolver: yupResolver(NewPasswordSchema),
@@ -53,6 +58,7 @@ const NewPasswordForm = () => {
   const onSubmit = async (data) => {
     try {
       //submit data to database
+      dispatch(NewPassword({...data,token: queryParams.get("token")}));
     } catch (error) {
       reset();
       setError("afterSubmit", { ...error, message: error.message });
@@ -67,7 +73,7 @@ const NewPasswordForm = () => {
         )}
 
         <RHFTextField
-          name="newPassword"
+          name="password"
           label="New Password"
           type={showPassword ? "text" : "newPassword"}
           InputProps={{
@@ -84,9 +90,9 @@ const NewPasswordForm = () => {
           }}
         />
         <RHFTextField
-          name="confirmPassword"
+          name="passwordConfirm"
           label="Confirm Password"
-          type={showPassword ? "text" : "confirmPassword"}
+          type={showPassword ? "text" : "passwordConfirm"}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

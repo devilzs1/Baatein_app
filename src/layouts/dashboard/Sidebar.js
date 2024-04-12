@@ -16,6 +16,8 @@ import { faker } from "@faker-js/faker";
 import AntiSwitch from "../../components/AntSwitch";
 import useSettings from "../../hooks/useSettings";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { LogOutUser } from "../../redux/slices/auth";
 
 const getPath = (index) => {
   switch (index) {
@@ -37,7 +39,7 @@ const getMenuPath = (index) => {
     case 0:
       return "/profile";
     case 1:
-      return "/group";
+      return "/settings";
     case 2:
       return "/auth/login";
 
@@ -47,6 +49,7 @@ const getMenuPath = (index) => {
 };
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
@@ -189,14 +192,20 @@ const Sidebar = () => {
             <Stack spacing={1} px={1}>
               {Profile_Menu.map((el, index) => (
                 <MenuItem key={index} onClick={()=>{
-                  // handleClick();
-                  navigate(getMenuPath(index));
+                  handleClick();
                 }}>
                   <Stack
                     sx={{ width: 100 }}
                     direction="row"
                     alignItems={"center"}
                     justifyContent={"space-between"}
+                    onClick={()=>{
+                      if(index === 2){
+                        dispatch(LogOutUser());
+                      }else{
+                        navigate(getMenuPath(index));
+                      }
+                    }}
                   >
                     <span>{el.title}</span>
                     {el.icon}

@@ -7,21 +7,17 @@ import * as Yup from "yup"
 import {useForm} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import YupPassword from "yup-password"
+import {  useDispatch } from '../../redux/store';
+import { LoginUser } from '../../redux/slices/auth';
 YupPassword(Yup)
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string().required("Email is required!").email("It must be a valid email address!"),
-        password:Yup.string().required("Password is required!").min(
-        8,
-        'password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special'
-        )
-        .minLowercase(1, 'password must contain at least 1 lower case letter')
-        .minUppercase(1, 'password must contain at least 1 upper case letter')
-        .minNumbers(1, 'password must contain at least 1 number')
-        .minSymbols(1, 'password must contain at least 1 special character'),
+        password:Yup.string().required("Password is required!")
     });
     
     const defaultValues ={
@@ -38,6 +34,7 @@ const LoginForm = () => {
     const onSubmit = async (data) =>{
         try{
             //submit data to database
+            dispatch(LoginUser(data));
         }catch(error){
             reset();
             setError("afterSubmit",{...error, message:error.message,})
