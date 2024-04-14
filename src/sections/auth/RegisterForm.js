@@ -12,18 +12,21 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import YupPassword from "yup-password";
 import FormProvider, { RHFTextField } from "../../components/hook-form";
+import { RegisterUser } from '../../redux/slices/auth';
+import { useDispatch } from 'react-redux';
 YupPassword(Yup);
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
 
     const RegisterSchema = Yup.object().shape({
         firstName: Yup.string().required("First name is required!"),
         lastName: Yup.string().required("Last name is required!"),
-      email: Yup.string()
+        email: Yup.string()
         .required("Email is required!")
         .email("It must be a valid email address!"),
-      password: Yup.string()
+        password: Yup.string()
         .required("Password is required!")
         .min(
           8,
@@ -38,8 +41,8 @@ const RegisterForm = () => {
     const defaultValues = {
         firstName:"",
         lastName:"",
-      email: "abc12@gmail.com",
-      password: "Abcd@1234",
+        email: "abc12@gmail.com",
+        password: "Abcd@1234",
     };
     const methods = useForm({
       resolver: yupResolver(RegisterSchema),
@@ -56,6 +59,7 @@ const RegisterForm = () => {
     const onSubmit = async (data) => {
       try {
         //submit data to database
+        dispatch(RegisterUser(data));
       } catch (error) {
         reset();
         setError("afterSubmit", { ...error, message: error.message });
