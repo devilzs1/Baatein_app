@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -6,19 +7,27 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ArchiveBox, DotsThreeCircle, MagnifyingGlass} from "phosphor-react";
+import { ArchiveBox, DotsThreeCircle, MagnifyingGlass, User} from "phosphor-react";
 import React from "react";
 import { useTheme} from "@mui/material/styles";
 import {ChatList} from "../../data";
 import { Search, SearchIconWrapper, StyledInputBase } from "../../components/Search";
 import ChatElement from "../../components/ChatElements";
+import Friends from "../../sections/dashboard/Friends";
 // import {SimpleBarStyle} from "../../components/Scrollbar";
 
 
 const Chats = () => {
   const theme = useTheme();
-
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = ()=>{
+    setOpenDialog(true);
+  }
+  const handleCloseDialog = ()=>{
+    setOpenDialog(false);
+  }
   return (
+    <>
     <Box
       sx={{
         position: "relative",
@@ -37,9 +46,14 @@ const Chats = () => {
           justifyContent="space-between"
         >
           <Typography variant="h5">Chats</Typography>
-          <IconButton>
-            <DotsThreeCircle />
-          </IconButton>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton onClick={()=>{handleOpenDialog()}}>
+              <User />
+            </IconButton>
+            <IconButton>
+              <DotsThreeCircle />
+            </IconButton>
+          </Stack>
         </Stack>
         <Stack sx={{ width: "100%" }}>
           <Search>
@@ -60,18 +74,23 @@ const Chats = () => {
           <Divider />
         </Stack>
         <Stack
-          spacing={.5}
+          spacing={0.5}
           direction="column"
-          sx={{ flexGrow: 1, overflowY: "scroll", height: "100%",}}
+          sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }}
         >
-        {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
-          {ChatList.map((el,index) => {
+          {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
+          {ChatList.map((el, index) => {
             return <ChatElement {...el} key={index} />;
           })}
-        {/* </SimpleBarStyle> */}
+          {/* </SimpleBarStyle> */}
         </Stack>
       </Stack>
     </Box>
+
+    {openDialog && (
+      <Friends open={openDialog} handleClose={handleCloseDialog}/>
+    )}
+    </>
   );
 };
 
