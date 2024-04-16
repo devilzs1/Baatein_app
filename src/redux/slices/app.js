@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    sidebar:{
+    sidebar: {
         open: false,
         type: "CONTACT",
-    }
-}
+    },
+    snackbar: {
+      open: false,
+      severity: null,
+      message: null,
+    },
+};
 
 const slice = createSlice({
     name: 'app',
@@ -16,6 +21,16 @@ const slice = createSlice({
         },
         updateSidebarType(state,action){
             state.sidebar.type = action.payload.type;
+        },
+        openSnackbar(state, action){
+            state.snackbar.open = true;
+            state.snackbar.severity = action.payload.severity;
+            state.snackbar.message = action.payload.message;
+        },
+        closeSnackbar(state, action){
+            state.snackbar.open = false;           
+            state.snackbar.message = null;
+            state.snackbar.severity = null;
         }
     }
 })
@@ -34,4 +49,21 @@ export function UpdateSidebarType(type){
             type,
         }))
     }
+}
+
+export function showSnackbar({severity, message}){
+    return async (dispatch, getState)=>{
+        dispatch(slice.actions.openSnackbar({
+            message,
+            severity,
+        }))
+
+        setTimeout(()=>{
+            dispatch(slice.actions.closeSnackbar());
+        },4000);
+    }
+}
+
+export const closeSnackBar = () => async (dispatch, getState) =>{
+    dispatch(slice.actions.closeSnackbar());
 }

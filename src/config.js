@@ -1,4 +1,4 @@
-// @mui
+
 import { enUS, frFR, zhCN, viVN, arSD } from '@mui/material/locale';
 
 // routes
