@@ -2,52 +2,70 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 
 const initialState = {
-    sidebar: {
-        open: false,
-        type: "CONTACT",
-    },
-    snackbar: {
-      open: false,
-      severity: null,
-      message: null,
-    },
-    users: [],
-    friends: [],
-    friendRequests: [],
-    all_users: [],
+  sidebar: {
+    open: false,
+    type: "CONTACT",
+  },
+  snackbar: {
+    open: false,
+    severity: null,
+    message: null,
+  },
+  user: {},
+  users: [],
+  friends: [],
+  friendRequests: [],
+  all_users: [],
+  chat_type: null,
+  room_id: null,
 };
 
 const slice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    toggleSidebar(state, action) {
+    fetchUser(state, action) {
+      state.user = action.payload.user;
+    },
+    updateUser(state, action) {
+      state.user = action.payload.user;
+    },
+
+    toggleSideBar(state) {
       state.sidebar.open = !state.sidebar.open;
     },
-    updateSidebarType(state, action) {
+    updateSideBarType(state, action) {
       state.sidebar.type = action.payload.type;
     },
-    openSnackbar(state, action) {
+    updateTab(state, action) {
+      state.tab = action.payload.tab;
+    },
+
+    openSnackBar(state, action) {
+      console.log(action.payload);
       state.snackbar.open = true;
       state.snackbar.severity = action.payload.severity;
       state.snackbar.message = action.payload.message;
     },
-    closeSnackbar(state, action) {
+    closeSnackBar(state) {
       state.snackbar.open = false;
       state.snackbar.message = null;
-      state.snackbar.severity = null;
     },
     updateUsers(state, action) {
       state.users = action.payload.users;
+    },
+    updateAllUsers(state, action) {
+      state.all_users = action.payload.users;
     },
     updateFriends(state, action) {
       state.friends = action.payload.friends;
     },
     updateFriendRequests(state, action) {
-      state.friendRequests = action.payload.friendRequests;
+      state.friendRequests = action.payload.requests;
     },
-    updateAllUsers(state, action) {
-      state.all_users = action.payload.users;
+    selectConversation(state, action) {
+      state.chat_type = "individual";
+      state.room_id = action.payload.room_id;
     },
   },
 });
@@ -156,7 +174,6 @@ export function FetchFriendRequests() {
     await axios
       .get(
         "/user/get-friend-requests",
-
         {
           headers: {
             "Content-Type": "application/json",
@@ -174,4 +191,10 @@ export function FetchFriendRequests() {
         console.log(err);
       });
   };
+}
+
+export const selectConverstation = ({room_id}) =>{
+  return (dispatch, getState) =>{
+    dispatch(slice.actions.selectConversation({room_id}));
+  }
 }

@@ -58,9 +58,7 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
     <StyledChatBox
       sx={{
         width: "100%",
-
         borderRadius: 1,
-
         backgroundColor: theme.palette.background.paper,
       }}
       p={2}
@@ -120,9 +118,7 @@ const FriendRequestElement = ({
     <StyledChatBox
       sx={{
         width: "100%",
-
         borderRadius: 1,
-
         backgroundColor: theme.palette.background.paper,
       }}
       p={2}
@@ -164,8 +160,6 @@ const FriendRequestElement = ({
   );
 };
 
-// FriendElement
-
 const FriendElement = ({
   img,
   firstName,
@@ -176,16 +170,13 @@ const FriendElement = ({
   _id,
 }) => {
   const theme = useTheme();
-
   const name = `${firstName} ${lastName}`;
 
   return (
     <StyledChatBox
       sx={{
         width: "100%",
-
         borderRadius: 1,
-
         backgroundColor: theme.palette.background.paper,
       }}
       p={2}

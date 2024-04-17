@@ -10,7 +10,7 @@ import {
   FriendElement,
   FriendRequestElement,
   UserElement,
-} from "../../components/UserElement";
+} from "../../components/Friends";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -63,9 +63,10 @@ const FriendRequestList = () => {
 
   return (
     <>
-      {friendRequests.map((el, idx) => {
-        return <FriendRequestElement key={idx} {...el.sender} id={el._id} />;
-      })}
+      {friendRequests &&
+        friendRequests.map((el, idx) => {
+          return <FriendRequestElement key={idx} {...el.sender} id={el._id} />;
+        })}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,12 +14,30 @@ import {ChatList} from "../../data";
 import { Search, SearchIconWrapper, StyledInputBase } from "../../components/Search";
 import ChatElement from "../../components/ChatElements";
 import Friends from "../../sections/dashboard/Friends";
+import { useDispatch, useSelector } from "react-redux";
+import { socket } from "../../socket";
+import { FetchDirectConversations } from "../../redux/slices/conversation";
 // import {SimpleBarStyle} from "../../components/Scrollbar";
 
 
+const user_id  = window.localStorage.getItem("user_id");
 const Chats = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
+
+    const dispatch = useDispatch();
+    const { conversations } = useSelector(
+      (state) => state.conversation.direct_chat
+    );
+
+    useEffect(() => {
+      socket.emit("get_direct_conversations", { user_id }, (data) => {
+        console.log(data);
+
+        dispatch(FetchDirectConversations({ conversations: data }));
+      });
+    }, []);
+
   const handleOpenDialog = ()=>{
     setOpenDialog(true);
   }
@@ -79,7 +97,7 @@ const Chats = () => {
           sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }}
         >
           {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
-          {ChatList.map((el, index) => {
+          {conversations.map((el, index) => {
             return <ChatElement {...el} key={index} />;
           })}
           {/* </SimpleBarStyle> */}

@@ -22,7 +22,7 @@ import { LogOutUser } from "../../redux/slices/auth";
 const getPath = (index) => {
   switch (index) {
     case 0:
-      return "/app";
+      return "/app#loaded";
     case 1:
       return "/group";
     case 2:
@@ -107,6 +107,10 @@ const Sidebar = () => {
                   }}
                 >
                   <IconButton
+                    onClick={() => {
+                      setSelected(el.index);
+                      navigate(getPath(el.index));
+                    }}
                     sx={{ width: "max-content", color: "#fff" }}
                     key={el.index}
                   >
@@ -191,18 +195,21 @@ const Sidebar = () => {
           >
             <Stack spacing={1} px={1}>
               {Profile_Menu.map((el, index) => (
-                <MenuItem key={index} onClick={()=>{
-                  handleClick();
-                }}>
+                <MenuItem
+                  key={index}
+                  onClick={() => {
+                    handleClick();
+                  }}
+                >
                   <Stack
                     sx={{ width: 100 }}
                     direction="row"
                     alignItems={"center"}
                     justifyContent={"space-between"}
-                    onClick={()=>{
-                      if(index === 2){
+                    onClick={() => {
+                      if (index === 2) {
                         dispatch(LogOutUser());
-                      }else{
+                      } else {
                         navigate(getMenuPath(index));
                       }
                     }}

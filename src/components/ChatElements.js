@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Badge, Stack, Avatar, Typography } from "@mui/material";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import { PushPin } from "phosphor-react";
+import { useDispatch } from "react-redux";
+import { selectConverstation } from "../redux/slices/app";
 
 const truncateText = (string, n) => {
   return string?.length > n ? `${string?.slice(0, n)}...` : string;
@@ -46,10 +48,11 @@ const ChatElement = ({ img, name, msg, time, unread, online, id, pinned }) => {
 
   let isSelected;
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   return (
     <StyledChatBox
-      onClick={() => {}}
+      onClick={() => {dispatch(selectConverstation({room_id: id}))}}
       sx={{
         width: "100%",
 
