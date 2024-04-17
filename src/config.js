@@ -4,8 +4,7 @@ import { enUS, frFR, zhCN, viVN, arSD } from '@mui/material/locale';
 // routes
 import { PATH_DASHBOARD } from "./routes/paths";
 
-export const BASE_URL =
-  "http://localhost:3000" || "https://baatein-app-backend.vercel.app/";
+export const BASE_URL = "https://baatein-app-backend.vercel.app/";
 
 export const defaultSettings = {
   themeMode: "light",
