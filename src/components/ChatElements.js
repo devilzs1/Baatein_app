@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Badge, Stack, Avatar, Typography } from "@mui/material";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import { PushPin } from "phosphor-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectConverstation } from "../redux/slices/app";
 
 const truncateText = (string, n) => {

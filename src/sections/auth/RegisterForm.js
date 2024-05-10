@@ -41,8 +41,8 @@ const RegisterForm = () => {
     const defaultValues = {
         firstName:"",
         lastName:"",
-        email: "abc12@gmail.com",
-        password: "Abcd@1234",
+        email: "",
+        password: "",
     };
     const methods = useForm({
       resolver: yupResolver(RegisterSchema),

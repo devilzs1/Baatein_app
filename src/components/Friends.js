@@ -86,13 +86,34 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
           </Stack>
         </Stack>
         <Stack direction={"row"} spacing={2} alignItems={"center"}>
-          <Button
+          {/* <Button
             onClick={() => {
-              socket.emit("friend_request", { to: _id, from: user_id }, () => {
+              console.log("I am sending request")
+              socket.emit("friend_request", { to: _id, from: user_id }).on("request sent", ()=>{
                 alert("request sent");
-              });
+              })
             }}
           >
+            Send Request
+          </Button> */}
+          <Button
+            onClick={() => {
+              console.log("I am sending request");
+              socket.emit(
+                "friend_request",
+                { to: _id, from: user_id },
+                (response) => {
+                  if (response === "sent request") {
+                    alert("Friend request sent successfully!");
+                  } else if (response === "already sent") {
+                    alert("Friend request already sent.");
+                  } else {
+                    alert("Error sending friend request.");
+                  }
+                }
+              );
+            }}
+            >
             Send Request
           </Button>
         </Stack>
@@ -146,10 +167,26 @@ const FriendRequestElement = ({
           </Stack>
         </Stack>
         <Stack direction={"row"} spacing={2} alignItems={"center"}>
-          <Button
+          {/* <Button
             onClick={() => {
               //  emit "accept_request" event
-              socket.emit("accept_request", { request_id: id });
+              socket.emit("accept_request", { request_id: id }, "request accepted", ()=>{
+                alert("Request accepted")
+              });
+            }}
+          >
+            Accept Request
+          </Button> */}
+          <Button
+            onClick={() => {
+              // Emit "accept_request" event and handle acknowledgment
+              socket.emit("accept_request", { request_id: id }, (response) => {
+                if (response === "request accepted") {
+                  alert("Request accepted");
+                } else {
+                  alert("Error accepting request");
+                }
+              });
             }}
           >
             Accept Request
