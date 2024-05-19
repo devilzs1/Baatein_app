@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import {Stack } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import useResponsive from "../../hooks/useResponsive";
 import {useDispatch, useSelector} from "react-redux";
 import { connectSocket, socket } from "../../socket";
 import { selectConverstation, showSnackbar } from "../../redux/slices/app";
 import { AddDirectConversation, AddDirectMessage, UpdateDirectConversation } from "../../redux/slices/conversation";
 
 const DashboardLayout = () => {
+  const isDesktop = useResponsive("up", "md");
   const dispatch = useDispatch();
   const {isLoggedIn} = useSelector((state) => state.auth);
   const { conversations, current_conversation } = useSelector(
@@ -98,9 +100,13 @@ const DashboardLayout = () => {
   }
   return (
     <>
-    <Stack direction="row">
-      <Sidebar/>
-      <Outlet />
+      <Stack direction="row">
+        {isDesktop && (
+          // SideBar
+          <Sidebar />
+        )}
+
+        <Outlet />
       </Stack>
     </>
   );

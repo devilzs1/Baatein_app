@@ -278,8 +278,8 @@ const Message_options = [
   },
 ];
 
-const SHARED_LINKS = [
-    {
+const Shared_links = [
+  {
     type: "msg",
     subtype: "img",
     message: "Here You Go",
@@ -287,7 +287,7 @@ const SHARED_LINKS = [
     incoming: true,
     outgoing: false,
   },
-    {
+  {
     type: "msg",
     subtype: "img",
     message: "Here You Go",
@@ -295,34 +295,7 @@ const SHARED_LINKS = [
     incoming: true,
     outgoing: false,
   },
-    {
-    type: "msg",
-    subtype: "img",
-    message: "Here You Go",
-    img: faker.image.abstract(),
-    incoming: true,
-    outgoing: false,
-  },
-];
-
-const SHARED_DOCS = [
-    {
-    type: "msg",
-    subtype: "img",
-    message: "Here You Go",
-    img: faker.image.abstract(),
-    incoming: true,
-    outgoing: false,
-  },
-    {
-    type: "msg",
-    subtype: "img",
-    message: "Here You Go",
-    img: faker.image.abstract(),
-    incoming: true,
-    outgoing: false,
-  },
-    {
+  {
     type: "msg",
     subtype: "img",
     message: "Here You Go",
@@ -332,6 +305,32 @@ const SHARED_DOCS = [
   },
 ];
 
+const Shared_docs = [
+  {
+    type: "msg",
+    subtype: "img",
+    message: "Here You Go",
+    img: faker.image.abstract(),
+    incoming: true,
+    outgoing: false,
+  },
+  {
+    type: "msg",
+    subtype: "img",
+    message: "Here You Go",
+    img: faker.image.abstract(),
+    incoming: true,
+    outgoing: false,
+  },
+  {
+    type: "msg",
+    subtype: "img",
+    message: "Here You Go",
+    img: faker.image.abstract(),
+    incoming: true,
+    outgoing: false,
+  },
+];
 
 export {
   Profile_Menu,
@@ -340,8 +339,8 @@ export {
   ChatList,
   Chat_History,
   Message_options,
-  SHARED_DOCS,
-  SHARED_LINKS,
+  Shared_docs,
+  Shared_links,
   CallLogs,
   CallList,
 };

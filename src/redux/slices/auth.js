@@ -5,6 +5,8 @@ import { showSnackbar } from "./app";
 const initialState = {
     isLoggedIn: false,
     token: "",
+    user: null,
+    user_id: null,
     isLoading: false,
     email: "",
     error: false,

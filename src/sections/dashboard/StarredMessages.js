@@ -1,32 +1,29 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import {
-  Box,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { CaretLeft } from "phosphor-react";
-
-import Message from "./Conversation/Message";
-import { UpdateSidebarType } from "../redux/slices/app";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { ArrowLeft } from "phosphor-react";
+import useResponsive from "../../hooks/useResponsive";
 import { useDispatch } from "react-redux";
-
+import { UpdateSidebarType } from "../../redux/slices/app";
+import { Conversation } from "../../pages/dashboard/Conversation";
 
 const StarredMessages = () => {
-  const theme = useTheme();
   const dispatch = useDispatch();
 
+  const theme = useTheme();
+
+  const isDesktop = useResponsive("up", "md");
+
   return (
-    <Box sx={{ width: 350, height: "100vh" }}>
+    <Box sx={{ width: !isDesktop ? "100vw" : 320, maxHeight: "100vh" }}>
       <Stack sx={{ height: "100%" }}>
         <Box
           sx={{
-            boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
+            boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
             width: "100%",
             backgroundColor:
               theme.palette.mode === "light"
-                ? "F8FAFF"
+                ? "#F8FAFF"
                 : theme.palette.background,
           }}
         >
@@ -41,23 +38,21 @@ const StarredMessages = () => {
                 dispatch(UpdateSidebarType("CONTACT"));
               }}
             >
-              <CaretLeft />
+              <ArrowLeft />
             </IconButton>
             <Typography variant="subtitle2">Starred Messages</Typography>
           </Stack>
         </Box>
-
         <Stack
           sx={{
             height: "100%",
             position: "relative",
             flexGrow: 1,
-            overflowY: "scroll",
+            overflow: "scroll",
           }}
-          p={2}
-          spacing={2}
+          spacing={3}
         >
-          <Message />
+          <Conversation />
         </Stack>
       </Stack>
     </Box>

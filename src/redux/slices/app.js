@@ -41,13 +41,13 @@ const slice = createSlice({
       state.tab = action.payload.tab;
     },
 
-    openSnackBar(state, action) {
+    openSnackbar(state, action) {
       console.log(action.payload);
       state.snackbar.open = true;
       state.snackbar.severity = action.payload.severity;
       state.snackbar.message = action.payload.message;
     },
-    closeSnackBar(state) {
+    closeSnackbar(state) {
       state.snackbar.open = false;
       state.snackbar.message = null;
     },
@@ -73,35 +73,44 @@ const slice = createSlice({
 export default slice.reducer;
 
 export function ToggleSidebar(dispatch, getState) {
-    return async()=>{
-        dispatch(slice.actions.toggleSidebar());
-    }
+  return async () => {
+    dispatch(slice.actions.toggleSidebar());
+  };
 }
 
-export function UpdateSidebarType(type){
-    return async (dispatch, getState) =>{
-        dispatch(slice.actions.updateSidebarType({
-            type,
-        }))
-    }
+export function UpdateSidebarType(type) {
+  return async (dispatch, getState) => {
+    dispatch(
+      slice.actions.updateSidebarType({
+        type,
+      })
+    );
+  };
+}
+export function UpdateTab(tab) {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.updateTab(tab));
+  };
 }
 
-export function showSnackbar({severity, message}){
-    return async (dispatch, getState)=>{
-        dispatch(slice.actions.openSnackbar({
-            message,
-            severity,
-        }))
+export function showSnackbar({ severity, message }) {
+  return async (dispatch, getState) => {
+    dispatch(
+      slice.actions.openSnackbar({
+        message,
+        severity,
+      })
+    );
 
-        setTimeout(()=>{
-            dispatch(slice.actions.closeSnackbar());
-        },4000);
-    }
+    setTimeout(() => {
+      dispatch(slice.actions.closeSnackbar());
+    }, 4000);
+  };
 }
 
-export const closeSnackBar = () => async (dispatch, getState) =>{
-    dispatch(slice.actions.closeSnackbar());
-}
+export const closeSnackbar = () => async (dispatch, getState) => {
+  dispatch(slice.actions.closeSnackbar());
+};
 
 export function FetchUsers() {
   return async (dispatch, getState) => {
@@ -172,15 +181,12 @@ export function FetchFriends() {
 export function FetchFriendRequests() {
   return async (dispatch, getState) => {
     await axios
-      .get(
-        "/user/get-friend-requests",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getState().auth.token}`,
-          },
-        }
-      )
+      .get("/user/get-friend-requests", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
       .then((response) => {
         console.log(response);
         dispatch(
@@ -193,8 +199,28 @@ export function FetchFriendRequests() {
   };
 }
 
-export const selectConverstation = ({room_id}) =>{
-  return (dispatch, getState) =>{
-    dispatch(slice.actions.selectConversation({room_id}));
-  }
-}
+export const selectConverstation = ({ room_id }) => {
+  return (dispatch, getState) => {
+    dispatch(slice.actions.selectConversation({ room_id }));
+  };
+};
+export const FetchCallLogs = () => {
+  return async (dispatch, getState) => {
+    axios
+      .get("/user/get-call-logs", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getState().auth.token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        dispatch(
+          slice.actions.fetchCallLogs({ call_logs: response.data.data })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};

@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Divider,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
+import {Avatar,Box,Divider,IconButton,Menu,MenuItem,Stack,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Logo from "../../assets/Images/logo.ico";
@@ -18,6 +11,7 @@ import useSettings from "../../hooks/useSettings";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LogOutUser } from "../../redux/slices/auth";
+
 
 const getPath = (index) => {
   switch (index) {
@@ -54,6 +48,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const { onToggleMode } = useSettings();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

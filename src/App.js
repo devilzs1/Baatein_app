@@ -2,10 +2,10 @@ import React from "react";
 import Router from "./routes";
 import ThemeProvider from "./theme";
 import ThemeSettings from "./components/settings";
-import  Snackbar  from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSnackBar } from "./redux/slices/app";
+import { closeSnackbar } from "./redux/slices/app";
 
 const vertical = "bottom";
 const horizontal = "center";
@@ -15,10 +15,10 @@ const Alert = React.forwardRef((props, ref) => (
 ));
 
 function App() {
-
   const dispatch = useDispatch();
-  // const {severity, message, open} = useSelector((state)=> state.app);
-  const {severity, message, open} = useSelector((state)=> state.app.snackbar)
+  const { severity, message, open } = useSelector(
+    (state) => state.app.snackbar
+  );
 
   return (
     <>
@@ -31,19 +31,19 @@ function App() {
 
       {message && open ? (
         <Snackbar
-          anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           open={open}
           autoHideDuration={4000}
           key={vertical + horizontal}
           onClose={() => {
             console.log("This is clicked");
-            dispatch(closeSnackBar());
+            dispatch(closeSnackbar());
           }}
         >
           <Alert
             onClose={() => {
               console.log("This is clicked");
-              dispatch(closeSnackBar());
+              dispatch(closeSnackbar());
             }}
             severity={severity}
             sx={{ width: "100%" }}

@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Stack,
-  Typography,
+import {Box,Button, Divider,IconButton,Stack, Typography,
 } from "@mui/material";
 import { ArchiveBox, DotsThreeCircle, MagnifyingGlass, User} from "phosphor-react";
 import React from "react";
@@ -18,24 +12,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { socket } from "../../socket";
 import { FetchDirectConversations } from "../../redux/slices/conversation";
 // import {SimpleBarStyle} from "../../components/Scrollbar";
+import useResponsive from "../../hooks/useResponsive";
+import BottomNav from "../../layouts/dashboard/BottomNav";
 
 const user_id  = window.localStorage.getItem("user_id");
 const Chats = () => {
   const theme = useTheme();
+  const isDesktop = useResponsive("up", "md");
+
+  const dispatch = useDispatch();
+
+  const { conversations } = useSelector(
+    (state) => state.conversation.direct_chat
+  );
+
+  useEffect(() => {
+    socket.emit("get_direct_conversations", { user_id }, (data) => {
+      console.log(data); // this data is the list of conversations
+      // dispatch action
+
+      dispatch(FetchDirectConversations({ conversations: data }));
+    });
+  }, []);
+
   const [openDialog, setOpenDialog] = useState(false);
-
-    const dispatch = useDispatch();
-    const { conversations } = useSelector(
-      (state) => state.conversation.direct_chat
-    );
-
-    useEffect(() => {
-      socket.emit("get_direct_conversations", { user_id }, (data) => {
-        console.log(data);
-
-        dispatch(FetchDirectConversations({ conversations: data }));
-      });
-    }, []);
 
   const handleOpenDialog = ()=>{
     setOpenDialog(true);
@@ -56,6 +56,10 @@ const Chats = () => {
           boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
         }}
       >
+        {!isDesktop && (
+          // Bottom Nav
+          <BottomNav />
+        )}
         <Stack p={2} spacing={1} sx={{ height: "100vh" }}>
           <Stack
             direction="row"

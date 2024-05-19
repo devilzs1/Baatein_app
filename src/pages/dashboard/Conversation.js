@@ -3,16 +3,10 @@ import React, { useEffect, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 
-import { Header, Footer } from "../../components/Chat";
+import { ChatHeader, ChatFooter } from "../../components/Chat";
 import useResponsive from "../../hooks/useResponsive";
-import { Chat_History } from "../../data";
-import {
-  DocMsg,
-  LinkMsg,
-  MediaMsg,
-  ReplyMsg,
-  TextMsg,
-  Timeline,
+// import { Chat_History } from "../../data";
+import {DocMsg,LinkMsg,MediaMsg,ReplyMsg,TextMsg,Timeline,
 } from "../../sections/dashboard/Conversation";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -34,7 +28,7 @@ const Conversation = ({ isMobile, menu }) => {
 
     socket.emit("get_messages", { conversation_id: current?.id }, (data) => {
       // data => list of messages
-      console.log(data, "List of messages");
+      // console.log(data, "List of messages");
       dispatch(FetchCurrentMessages({ messages: data }));
     });
 
@@ -114,14 +108,14 @@ const ChatComponent = () => {
       width={isMobile ? "100vw" : "auto"}
     >
       {/*  */}
-      <Header />
+      <ChatHeader />
       <Box
         ref={messageListRef}
         width={"100%"}
         sx={{
           position: "relative",
           flexGrow: 1,
-          overflow: "scroll",
+          overflowY: "scroll",
 
           backgroundColor:
             theme.palette.mode === "light"
@@ -131,13 +125,13 @@ const ChatComponent = () => {
           boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
         }}
       >
-        <SimpleBarStyle timeout={500} clickOnTrack={false}>
+        <SimpleBarStyle>
           <Conversation menu={true} isMobile={isMobile} />
         </SimpleBarStyle>
       </Box>
 
       {/*  */}
-      <Footer />
+      <ChatFooter />
     </Stack>
   );
 };
