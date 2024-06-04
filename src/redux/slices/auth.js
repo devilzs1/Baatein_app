@@ -43,14 +43,14 @@ export function LoginUser(formValues){
            slice.actions.updateIsLoading({ isLoading: true, error: false })
          );
 
-        await axios.post("/auth/login", {
+        await axios.post("auth/login", {
             ...formValues,
         },{
             headers:{
                 "Content-Type": "application/json",
             }
-        }).then(function (response){
-            console.log(response)
+        }).then((response)=>{
+            // console.log("I am here",response)
             dispatch(slice.actions.logIn({
                 isLoggedIn: true,
                 token: response.data.token,
@@ -62,8 +62,8 @@ export function LoginUser(formValues){
             dispatch(slice.actions.updateIsLoading({   isLoading: false, error: false })
             );
         }).catch(function (error){
-            console.log(error)
-            dispatch(showSnackbar({severity: "error", message:error.message}));
+            // console.log("I am here", error)
+            dispatch(showSnackbar({severity: "error", message:error.response.data.message}));
             dispatch(
               slice.actions.updateIsLoading({ isLoading: false, error: true })
             );
@@ -87,10 +87,22 @@ export function ForgotPassword(formValues){
                 "Content-Type": "application/json",
             }
         }).then((response)=>{
-            console.log(response)
-
+            // console.log(response)
+            dispatch(
+              showSnackbar({
+                severity: "success",
+                message: response.data.message,
+              })
+            );
         }).catch((error)=>{
-            console.log(error)
+            // console.log(error)
+            dispatch(
+              showSnackbar({
+                severity: "error",
+                message: error.response.data.message,
+              })
+            );
+
         })
 
     }
@@ -105,7 +117,13 @@ export function NewPassword(formValues){
                 "Content-Type": "application/json",
             }
         }).then((response)=>{
-            console.log(response)
+            // console.log(response)
+            dispatch(
+              showSnackbar({
+                severity: "success",
+                message: response.data.message,
+              })
+            );
             dispatch(
                 slice.actions.logIn({
                     isLoggedIn: true,
@@ -114,7 +132,13 @@ export function NewPassword(formValues){
             )
 
         }).catch((error)=>{
-            console.log(error)
+            // console.log(error)
+            dispatch(
+              showSnackbar({
+                severity: "error",
+                message: error.response.data.message,
+              })
+            );
         })
     }
 }
@@ -129,11 +153,17 @@ export function RegisterUser(formValues){
                 "Content-Type": "application/json",
             }
         }).then((response)=>{
-            console.log(response)
+            // console.log(response)
             dispatch(slice.actions.udpateRegisterEmail({email: formValues.email}))
             dispatch(slice.actions.updateIsLoading({isLoading: false, error: false}))
         }).catch((error)=>{
-            console.log(error);
+            // console.log(error);
+           dispatch(
+             showSnackbar({
+               severity: "error",
+               message: error.response.data.message,
+             })
+           );
             dispatch(slice.actions.updateIsLoading({isLoading: false, error: true}))
             
         }).finally(()=>{
@@ -142,11 +172,11 @@ export function RegisterUser(formValues){
                 window.location.href = `/auth/verify-otp?email=${encodeURIComponent(
                   formValues.email
                 )}`;
-
             }
         })
     }
 }
+
 export function VerifyEmail(formValues){
     return async (dispatch, getState)=>{
          dispatch(
@@ -159,15 +189,21 @@ export function VerifyEmail(formValues){
                 "Content-Type": "application/json",
             }
         }).then((response)=>{
-            console.log(response)
+            // console.log(response)
             dispatch(slice.actions.logIn({isLoggedIn: true, token: response.data.token}));
 
             window.localStorage.setItem("user_id", response.data.user_id);
             dispatch(slice.actions.updateIsLoading({isLoading: false, error: false}));
 
         }).catch((error)=>{
-            console.log(error)
-            console.log("error coming in verify")
+            // console.log(error)
+            // console.log("error coming in verify")
+            dispatch(
+              showSnackbar({
+                severity: "error",
+                message: error.response.data.message,
+              })
+            );
             dispatch(slice.actions.updateIsLoading({ error: true, isLoading: false }));
         })
     }

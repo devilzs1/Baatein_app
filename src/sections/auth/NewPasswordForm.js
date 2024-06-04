@@ -75,7 +75,8 @@ const NewPasswordForm = () => {
         <RHFTextField
           name="password"
           label="New Password"
-          type={showPassword ? "text" : "newPassword"}
+          type={showPassword ? "text" : "password"}
+          autoComplete="off"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -92,7 +93,8 @@ const NewPasswordForm = () => {
         <RHFTextField
           name="passwordConfirm"
           label="Confirm Password"
-          type={showPassword ? "text" : "passwordConfirm"}
+          type={showPassword ? "text" : "password"}
+          autoComplete="off"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -106,6 +108,7 @@ const NewPasswordForm = () => {
             ),
           }}
         />
+
         <Button
           fullWidth
           color="inherit"
