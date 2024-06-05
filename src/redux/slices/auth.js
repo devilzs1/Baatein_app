@@ -16,21 +16,23 @@ const slice = createSlice({
     name: "auth",
     initialState,
     reducers:{
-        updateIsLoading(state, action){
-            state.error = action.payload.error;
-            state.isLoading = action.payload.isLoading;
-        },
-        logIn(state, action){
-            state.isLoggedIn = action.payload.isLoggedIn;
-            state.token = action.payload.token;
-        },
-        signOut(state, action){
-            state.isLoggedIn = false;
-            state.token ="";
-        },
-        udpateRegisterEmail(state, action){
-            state.email = action.payload.email;
-        }
+       updateIsLoading(state, action) {
+      state.error = action.payload.error;
+      state.isLoading = action.payload.isLoading;
+    },
+    logIn(state, action) {
+      state.isLoggedIn = action.payload.isLoggedIn;
+      state.token = action.payload.token;
+      state.user_id = action.payload.user_id;
+    },
+    signOut(state, action) {
+      state.isLoggedIn = false;
+      state.token = "";
+      state.user_id = null;
+    },
+    udpateRegisterEmail(state, action) {
+      state.email = action.payload.email;
+    },
     }
 });
 
@@ -54,6 +56,7 @@ export function LoginUser(formValues){
             dispatch(slice.actions.logIn({
                 isLoggedIn: true,
                 token: response.data.token,
+                user_id: response.data.user_id,
             }));
 
             window.localStorage.setItem("user_id", response.data.user_id);
@@ -128,6 +131,7 @@ export function NewPassword(formValues){
                 slice.actions.logIn({
                     isLoggedIn: true,
                     token: response.data.token,
+                    user_id: response.data.user_id,
                 })
             )
 
