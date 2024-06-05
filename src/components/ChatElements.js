@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Badge, Stack, Avatar, Typography } from "@mui/material";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import { PushPin } from "phosphor-react";
@@ -49,17 +49,21 @@ const ChatElement = ({ img, name, msg, time, unread, online, id, pinned }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { room_id } = useSelector((state) => state.app);
-  const selectedChatId = room_id?.toString();
+  const selectedChatId = room_id;
 
-  let isSelected = +selectedChatId === id;
+  let isSelected = selectedChatId === id;
 
   if (!selectedChatId) {
     isSelected = false;
   }
 
+  const handleClick = () => {
+    dispatch(selectConverstation({ room_id: isSelected ? null : id }));
+  };
+
   return (
     <StyledChatBox
-      onClick={() => {dispatch(selectConverstation({room_id: id}))}}
+      onClick={handleClick}
       sx={{
         width: "100%",
 
@@ -67,7 +71,7 @@ const ChatElement = ({ img, name, msg, time, unread, online, id, pinned }) => {
 
         backgroundColor: isSelected
           ? theme.palette.mode === "light"
-            ? alpha(theme.palette.primary.main, 0.5)
+            ? alpha(theme.palette.primary.main, 0.1)
             : theme.palette.primary.main
           : theme.palette.mode === "light"
           ? "#fff"
@@ -95,7 +99,7 @@ const ChatElement = ({ img, name, msg, time, unread, online, id, pinned }) => {
           )}
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>
-            <Typography variant="caption">{truncateText(msg, 20)}</Typography>
+            {/* <Typography variant="caption">{truncateText(msg, 20)}</Typography> */}
           </Stack>
         </Stack>
         <Stack spacing={2} alignItems={"center"}>

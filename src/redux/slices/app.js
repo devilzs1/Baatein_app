@@ -214,7 +214,7 @@ export const FetchCallLogs = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         dispatch(
           slice.actions.fetchCallLogs({ call_logs: response.data.data })
         );
@@ -224,3 +224,52 @@ export const FetchCallLogs = () => {
       });
   };
 };
+
+export const FetchUserProfile = () =>{
+  return async (dispatch, getState) => {
+    axios.get("user/get-me", {
+      headers: {
+        "Content-Type" : "application/json",
+        Authorization : `Bearer ${getState().auth.token}`,
+      }
+    }).then((response)=>{
+      // console.log(response);
+      dispatch(slice.actions.fetchUser({user: response.data.data}));
+    }).catch((error)=>{
+      console.log("Error fetching profile",error);
+    })
+  }
+}
+
+export const UpdateUserProfile = (formValues) =>{
+  return async (dispatch, getState)=>{
+    axios.patch(
+      "user/update-me",
+      {
+        ...formValues,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getState().auth.token}`,
+        },
+      }
+    ).then((response)=>{
+      dispatch(slice.actions.updateUser({user: response.data.data}));
+      dispatch(
+        showSnackbar({
+          severity: "success",
+          message: response.data.message,
+        })
+      );
+    }).catch((error)=>{
+      dispatch(
+        showSnackbar({
+          severity: "error",
+          message: error.response.data.message,
+        })
+      );
+      console.log("Error updating user profile", error);
+    })
+  }
+}

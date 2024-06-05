@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { Stack, TextField } from "@mui/material";
@@ -21,14 +20,30 @@ export default function RHFCodes({ keyName = "", inputs = [], ...other }) {
     if (value.length > maxLength) {
       event.target.value = value[0];
     }
+
     if (value.length >= maxLength && fieldIntIndex < 6 && nextfield !== null) {
       nextfield.focus();
     }
-    if ( value.length < maxLength && fieldIntIndex > 0  && prevfield !== null) {
-      prevfield.focus();
-    }
 
     handleChange(event);
+  };
+
+  const handleKeyDown = (event) => {
+    const { name, value } = event.target;
+    const fieldIndex = name.replace(keyName, "");
+    const fieldIntIndex = Number(fieldIndex);
+    const prevfield = document.querySelector(
+      `input[name=${keyName}${fieldIntIndex - 1}]`
+    );
+
+    if (
+      event.key === "Backspace" &&
+      value.length === 0 &&
+      fieldIntIndex > 0 &&
+      prevfield !== null
+    ) {
+      prevfield.focus();
+    }
   };
 
   return (
@@ -47,6 +62,7 @@ export default function RHFCodes({ keyName = "", inputs = [], ...other }) {
               onChange={(event) => {
                 handleChangeWithNextField(event, field.onChange);
               }}
+              onKeyDown={handleKeyDown}
               onFocus={(event) => event.currentTarget.select()}
               InputProps={{
                 sx: {

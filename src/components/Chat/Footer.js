@@ -88,15 +88,19 @@ const ChatInput = ({
       InputProps={{
         disableUnderline: true,
         startAdornment: (
-          <Stack sx={{ width: "max-content" }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            sx={{ width: "max-content" }}
+          >
             <Stack
               sx={{
                 position: "relative",
                 display: openActions ? "inline-block" : "none",
               }}
             >
-              {Actions.map((el) => (
-                <Tooltip placement="right" title={el.title}>
+              {Actions.map((el, index) => (
+                <Tooltip key={index} placement="right" title={el.title}>
                   <Fab
                     onClick={() => {
                       setOpenActions(!openActions);
@@ -114,7 +118,7 @@ const ChatInput = ({
               ))}
             </Stack>
 
-            <InputAdornment>
+            <InputAdornment position="start">
               <IconButton
                 onClick={() => {
                   setOpenActions(!openActions);
@@ -127,7 +131,7 @@ const ChatInput = ({
         ),
         endAdornment: (
           <Stack sx={{ position: "relative" }}>
-            <InputAdornment>
+            <InputAdornment position="end">
               <IconButton
                 onClick={() => {
                   setOpenPicker(!openPicker);
@@ -260,6 +264,7 @@ const Footer = () => {
                     to: current_conversation.user_id,
                     type: containsUrl(value) ? "Link" : "Text",
                   });
+                  setValue("");
                 }}
               >
                 <PaperPlaneTilt color="#ffffff" />

@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import {Dialog,DialogContent,DialogTitle,Slide,Stack,
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Slide,
+  Stack,
 } from "@mui/material";
 // import {Search,SearchIconWrapper,StyledInputBase,
 // } from "../../components/Search";
@@ -55,9 +60,9 @@ const StartCall = ({ open, handleClose }) => {
       <DialogContent>
         <Stack sx={{ height: "100%" }}>
           <Stack spacing={2.4}>
-            {list.map((el, idx) => {
+            {list.map((el, index) => {
               return (
-                <CallElement key={idx} {...el} handleClose={handleClose} />
+                <CallElement key={index} {...el} handleClose={handleClose} />
               );
             })}
           </Stack>

@@ -59,13 +59,13 @@ const ProfileMenu = () => {
       >
         <Box p={1}>
           <Stack spacing={1}>
-            {Profile_Menu.map((el, idx) => (
-              <MenuItem onClick={handleClose}>
+            {Profile_Menu.map((el, index) => (
+              <MenuItem key={index} onClick={handleClose}>
                 <Stack
                   onClick={() => {
-                    if (idx === 0) {
+                    if (index === 0) {
                       navigate("/profile");
-                    } else if (idx === 1) {
+                    } else if (index === 1) {
                       navigate("/settings");
                     } else {
                       dispatch(LogOutUser());

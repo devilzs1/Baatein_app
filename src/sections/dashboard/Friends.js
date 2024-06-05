@@ -23,12 +23,12 @@ const UsersList = () => {
 
   useEffect(() => {
     dispatch(FetchUsers());
-  },[]);
+  }, []);
 
   return (
     <>
-      {users.map((el, idx) => {
-        return <UserElement key={idx} {...el} />;
+      {users.map((el, index) => {
+        return <UserElement key={index} {...el} />;
       })}
     </>
   );
@@ -41,12 +41,12 @@ const FriendsList = () => {
 
   useEffect(() => {
     dispatch(FetchFriends());
-  },[]);
+  }, []);
 
   return (
     <>
-      {friends.map((el, idx) => {
-        return <FriendElement key={idx} {...el} />;
+      {friends.map((el, index) => {
+        return <FriendElement key={index} {...el} />;
       })}
     </>
   );
@@ -59,13 +59,15 @@ const FriendRequestList = () => {
 
   useEffect(() => {
     dispatch(FetchFriendRequests());
-  },[]);
+  }, []);
 
   return (
     <>
       {friendRequests &&
-        friendRequests.map((el, idx) => {
-          return <FriendRequestElement key={idx} {...el.sender} id={el._id} />;
+        friendRequests.map((el, index) => {
+          return (
+            <FriendRequestElement key={index} {...el.sender} id={el._id} />
+          );
         })}
     </>
   );
@@ -101,11 +103,11 @@ const Friends = ({ open, handleClose }) => {
           <Stack spacing={2.4}>
             {(() => {
               switch (value) {
-                case 0: 
+                case 0:
                   return <UsersList />;
-                case 1: 
+                case 1:
                   return <FriendsList />;
-                case 2: 
+                case 2:
                   return <FriendRequestList />;
 
                 default:

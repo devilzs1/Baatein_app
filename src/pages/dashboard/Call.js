@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Box,
   Divider,
@@ -18,10 +19,18 @@ import { useTheme } from "@mui/material/styles";
 import { SimpleBarStyle } from "../../components/Scrollbar";
 import { CallLogElement } from "../../components/CallElement";
 import StartCall from "../../sections/dashboard/StartCall";
-import {CallLogs } from "../../data";
-
+import { CallLogs } from "../../data";
+import { useDispatch, useSelector } from "react-redux";
+import { FetchCallLogs } from "../../redux/slices/app";
 
 const Call = () => {
+  const dispatch = useDispatch();
+  const { call_logs } = useSelector((state) => state.app);
+
+  // useEffect(() => {
+  //   dispatch(FetchCallLogs());
+  // }, []);
+
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleCloseDialog = () => {
@@ -34,7 +43,6 @@ const Call = () => {
   return (
     <>
       <Stack direction="row" sx={{ width: "100%" }}>
-
         <Box
           sx={{
             height: "100vh",
@@ -81,14 +89,14 @@ const Call = () => {
               </IconButton>
             </Stack>
             <Divider />
-            <Stack sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }} >
-              <SimpleBarStyle timeout={500} clickOnTrack={false}>
-                <Stack spacing={.5}>
-                  {CallLogs.map((el, idx) => {
-                    return <CallLogElement key={idx} {...el} />;
-                  })}
-                </Stack>
-              </SimpleBarStyle>
+            <Stack sx={{ flexGrow: 1, overflowY: "scroll", height: "100%" }}>
+              {/* <SimpleBarStyle timeout={500} clickOnTrack={false}> */}
+              <Stack spacing={0.5}>
+                {CallLogs.map((el, index) => {
+                  return <CallLogElement key={index} {...el} />;
+                })}
+              </Stack>
+              {/* </SimpleBarStyle> */}
             </Stack>
           </Stack>
         </Box>

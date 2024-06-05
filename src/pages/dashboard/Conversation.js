@@ -6,7 +6,13 @@ import { SimpleBarStyle } from "../../components/Scrollbar";
 import { ChatHeader, ChatFooter } from "../../components/Chat";
 import useResponsive from "../../hooks/useResponsive";
 // import { Chat_History } from "../../data";
-import {DocMsg,LinkMsg,MediaMsg,ReplyMsg,TextMsg,Timeline,
+import {
+  DocMsg,
+  LinkMsg,
+  MediaMsg,
+  ReplyMsg,
+  TextMsg,
+  Timeline,
 } from "../../sections/dashboard/Conversation";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,16 +39,30 @@ const Conversation = ({ isMobile, menu }) => {
     });
 
     dispatch(SetCurrentConversation(current));
-  }, []);
+
+    socket.on("text_message", (newMessage) => {
+      if (newMessage.conversation_id === room_id) {
+        dispatch(
+          FetchCurrentMessages({ messages: [...current_messages, newMessage] })
+        );
+      }
+    });
+
+    // Clean up the event listener
+    return () => {
+      socket.off("text_message");
+    };
+  }, [conversations, room_id]);
+
   return (
     <Box p={isMobile ? 1 : 3}>
       <Stack spacing={3}>
-        {current_messages.map((el, idx) => {
+        {current_messages.map((el, index) => {
           switch (el.type) {
             case "divider":
               return (
                 // Timeline
-                <Timeline el={el} />
+                <Timeline el={el} key={index} />
               );
 
             case "msg":
@@ -50,30 +70,30 @@ const Conversation = ({ isMobile, menu }) => {
                 case "img":
                   return (
                     // Media Message
-                    <MediaMsg el={el} menu={menu} />
+                    <MediaMsg el={el} menu={menu} key={index} />
                   );
 
                 case "doc":
                   return (
                     // Doc Message
-                    <DocMsg el={el} menu={menu} />
+                    <DocMsg el={el} menu={menu} key={index} />
                   );
                 case "Link":
                   return (
                     //  Link Message
-                    <LinkMsg el={el} menu={menu} />
+                    <LinkMsg el={el} menu={menu} key={index} />
                   );
 
                 case "reply":
                   return (
                     //  ReplyMessage
-                    <ReplyMsg el={el} menu={menu} />
+                    <ReplyMsg el={el} menu={menu} key={index} />
                   );
 
                 default:
                   return (
                     // Text Message
-                    <TextMsg el={el} menu={menu} />
+                    <TextMsg el={el} menu={menu} key={index} />
                   );
               }
 
@@ -104,11 +124,12 @@ const ChatComponent = () => {
   return (
     <Stack
       height={"100%"}
-      maxHeight={"100vh"}
+      maxHeight={"99.1vh"}
       width={isMobile ? "100vw" : "auto"}
+      overflow="hidden"
     >
-      {/*  */}
       <ChatHeader />
+
       <Box
         ref={messageListRef}
         width={"100%"}
@@ -130,7 +151,6 @@ const ChatComponent = () => {
         </SimpleBarStyle>
       </Box>
 
-      {/*  */}
       <ChatFooter />
     </Stack>
   );

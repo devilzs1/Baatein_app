@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Avatar,
@@ -22,8 +22,18 @@ import {
 import { faker } from "@faker-js/faker";
 import ShortcutsDialog from "../../sections/settings/ShortcutsDialog";
 import ThemeDialog from "../../sections/settings/ThemeDialog";
+import { useDispatch, useSelector } from "react-redux";
+import {FetchUserProfile} from "../../redux/slices/app";
 
 const Settings = () => {
+
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.app);
+
+  useEffect(()=>{
+    dispatch(FetchUserProfile());
+  }, []);
+
   const theme = useTheme();
   const [openTheme, setOpenTheme] = useState(false);
   const [openShortcuts, setOpenShortcuts] = useState(false);
@@ -119,23 +129,24 @@ const Settings = () => {
               <Avatar
                 sx={{ height: 56, width: 56 }}
                 src={faker.image.avatar()}
-                alt={faker.name.fullName()}
+                alt={user?.firstName}
               />
               <Stack spacing={0.5}>
                 <Typography variant="article">
-                  {faker.name.fullName()}
+                  {user?.firstName} {user?.lastName}
                 </Typography>
-                <Typography variant="body2">{faker.random.words()}</Typography>
+                <Typography variant="body2">{user?.about}</Typography>
               </Stack>
             </Stack>
 
             <Stack spacing={2}>
-              {list.map(({ key, icon, title, onClick }) => (
+              {list.map(({ key, icon, title, onClick }, index) => (
                 <>
                   <Stack
                     spacing={2}
                     sx={{ cursor: "pointer" }}
                     onClick={onClick}
+                    key={index}
                   >
                     <Stack direction="row" spacing={2} alignItems={"center"}>
                       {icon}

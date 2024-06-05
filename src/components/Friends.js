@@ -61,7 +61,7 @@ const UserElement = ({ img, firstName, lastName, online, _id }) => {
         borderRadius: 1,
         backgroundColor: theme.palette.background.paper,
       }}
-      p={2}
+      px={2}
     >
       <Stack
         direction="row"
@@ -142,7 +142,7 @@ const FriendRequestElement = ({
         borderRadius: 1,
         backgroundColor: theme.palette.background.paper,
       }}
-      p={2}
+      px={2}
     >
       <Stack
         direction="row"
@@ -216,7 +216,7 @@ const FriendElement = ({
         borderRadius: 1,
         backgroundColor: theme.palette.background.paper,
       }}
-      p={2}
+      px={2}
     >
       <Stack
         direction="row"

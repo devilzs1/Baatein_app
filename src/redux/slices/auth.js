@@ -13,10 +13,10 @@ const initialState = {
 }
 
 const slice = createSlice({
-    name: "auth",
-    initialState,
-    reducers:{
-       updateIsLoading(state, action) {
+  name: "auth",
+  initialState,
+  reducers: {
+    updateIsLoading(state, action) {
       state.error = action.payload.error;
       state.isLoading = action.payload.isLoading;
     },
@@ -33,7 +33,7 @@ const slice = createSlice({
     udpateRegisterEmail(state, action) {
       state.email = action.payload.email;
     },
-    }
+  },
 });
 
 export default slice.reducer;
@@ -53,11 +53,13 @@ export function LoginUser(formValues){
             }
         }).then((response)=>{
             // console.log("I am here",response)
-            dispatch(slice.actions.logIn({
+            dispatch(
+              slice.actions.logIn({
                 isLoggedIn: true,
                 token: response.data.token,
                 user_id: response.data.user_id,
-            }));
+              })
+            );
 
             window.localStorage.setItem("user_id", response.data.user_id);
 
@@ -65,7 +67,7 @@ export function LoginUser(formValues){
             dispatch(slice.actions.updateIsLoading({   isLoading: false, error: false })
             );
         }).catch(function (error){
-            // console.log("I am here", error)
+            console.log("I am here", error)
             dispatch(showSnackbar({severity: "error", message:error.response.data.message}));
             dispatch(
               slice.actions.updateIsLoading({ isLoading: false, error: true })

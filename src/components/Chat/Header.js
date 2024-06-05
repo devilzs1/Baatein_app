@@ -115,7 +115,7 @@ const ChatHeader = () => {
                   vertical: "bottom",
                   horizontal: "right",
                 }}
-                variant="dot"
+                variant={current_conversation?.online ? "dot" : undefined}
               >
                 <Avatar
                   alt={current_conversation?.name}
@@ -127,7 +127,7 @@ const ChatHeader = () => {
               <Typography variant="subtitle2">
                 {current_conversation?.name}
               </Typography>
-              <Typography variant="caption">Online</Typography>
+              <Typography variant="caption">{current_conversation?.online ? "Online" : "Offline"}</Typography>
             </Stack>
           </Stack>
           <Stack
@@ -135,16 +135,10 @@ const ChatHeader = () => {
             alignItems="center"
             spacing={isMobile ? 1 : 3}
           >
-            <IconButton
-              onClick={() => {
-              }}
-            >
+            <IconButton onClick={() => {}}>
               <VideoCamera />
             </IconButton>
-            <IconButton
-              onClick={() => {
-              }}
-            >
+            <IconButton onClick={() => {}}>
               <Phone />
             </IconButton>
             {!isMobile && (
@@ -187,8 +181,8 @@ const ChatHeader = () => {
             >
               <Box p={1}>
                 <Stack spacing={1}>
-                  {Conversation_Menu.map((el) => (
-                    <MenuItem onClick={handleCloseConversationMenu}>
+                  {Conversation_Menu.map((el, index) => (
+                    <MenuItem key={index} onClick={handleCloseConversationMenu}>
                       <Stack
                         sx={{ minWidth: 100 }}
                         direction="row"

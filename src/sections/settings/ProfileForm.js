@@ -1,4 +1,5 @@
 // import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import FormProvider from "../../components/hook-form/FormProvider";
 import { RHFTextField } from "../../components/hook-form";
@@ -6,20 +7,25 @@ import { Stack, Button } from "@mui/material";
 import { faker } from "@faker-js/faker";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { UpdateUserProfile } from "../../redux/slices/app";
 
 const ProfileForm = () => {
   // const [file, setFile] = useState();
+  const dispatch = useDispatch();
+  const {user} = useSelector((state)=>state.app);
 
   const ProfileSchema = Yup.object().shape({
-    firstName: Yup.string().required("Name is required"),
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
     about: Yup.string().required("About is required"),
-    avatar: Yup.string().required("Avatar is required").nullable(true),
+    // avatar: Yup.string().required("Avatar is required").nullable(true),
   });
 
   const defaultValues = {
-    firstName: faker.name.firstName(),
-    about: "",
-    avatar: faker.image.avatar(),
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    about: user?.about,
+    // avatar: faker.image.avatar(),
   };
 
   const methods = useForm({
@@ -41,9 +47,14 @@ const ProfileForm = () => {
   const onSubmit = async (data) => {
     try {
       //   Send API request
-      console.log("DATA", data);
+      // console.log("DATA", data);
+      dispatch(UpdateUserProfile({
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        about: data?.about,
+      }))
     } catch (error) {
-      console.error("error", error);
+      console.error("Error updating user profile!!!", error);
     }
   };
 
@@ -67,12 +78,13 @@ const ProfileForm = () => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-
         <RHFTextField
           helperText={"This name is visible to your contacts"}
           name="firstName"
           label="First Name"
         />
+        <RHFTextField name="lastName" label="Last Name" />
+
         <RHFTextField multiline rows={4} name="about" label="About" />
 
         <Stack direction={"row"} justifyContent="end">
@@ -81,9 +93,10 @@ const ProfileForm = () => {
             size="large"
             type="submit"
             variant="contained"
-            loading={isSubmitSuccessful || isSubmitting}
+            loading={isSubmitting}
+            disabled={isSubmitting}
           >
-            Save
+            {isSubmitting ? "Submitting..." : "Save"}
           </Button>
         </Stack>
       </Stack>

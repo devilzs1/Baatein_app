@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormProvider, { RHFTextField } from "../../components/hook-form";
-import {Link as RouterLink, useSearchParams} from "react-router-dom";
+import { useSearchParams} from "react-router-dom";
 import { Eye, EyeSlash } from "phosphor-react";
 import {
   Stack,
